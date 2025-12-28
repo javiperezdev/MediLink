@@ -1,0 +1,7 @@
+/bin/
+*.class
+.settings/
+.metadata/
+.recommenders/
+.DS_Store
+Thumbs.db
