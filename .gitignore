@@ -5,3 +5,6 @@
 .recommenders/
 .DS_Store
 Thumbs.db
+.project
+.gitinit
+.classpath
