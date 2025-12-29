@@ -8,6 +8,8 @@ import com.medilink.model.Patient;
 import com.medilink.model.Severity;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 class EmergencyRoomTest {
 	
@@ -18,17 +20,17 @@ class EmergencyRoomTest {
 	void setUp() {
 		er = new EmergencyRoom();
 		
-		p1 = new Patient(001, "Maria Garcia");
-	    p2 = new Patient(002, "Juan Perez");
-	    p3 = new Patient(003, "Lucia Fernandez");
-	    p4 = new Patient(004, "Carlos Ruiz");
-        p5 = new Patient(005, "Ana Lopez");
+		p1 = new Patient(1, "Maria Garcia");
+	    p2 = new Patient(2, "Juan Perez");
+	    p3 = new Patient(3, "Lucia Fernandez");
+	    p4 = new Patient(4, "Carlos Ruiz");
+        p5 = new Patient(5, "Ana Lopez");
 	    
-	    p1.setS(Severity.MODERATE);  
-        p2.setS(Severity.CRITICAL);  
-        p3.setS(Severity.LOW);
-	    p4.setS(Severity.SERIOUS);
-        p5.setS(Severity.CRITICAL);
+	    p1.setSeverity(Severity.MODERATE);  
+        p2.setSeverity(Severity.CRITICAL);  
+        p3.setSeverity(Severity.LOW);
+	    p4.setSeverity(Severity.SERIOUS);
+        p5.setSeverity(Severity.CRITICAL);
 	    
 	    er.addPatient(p1);
 	    er.addPatient(p2);
@@ -40,7 +42,7 @@ class EmergencyRoomTest {
 		
 	@Test
 	void testReSort() {
-	    ArrayList<Patient> expected = new ArrayList<Patient>();
+	    List<Patient> expected = new ArrayList<Patient>();
 	    expected.add(p2);
 	    expected.add(p5);
 	    expected.add(p4);
@@ -52,8 +54,11 @@ class EmergencyRoomTest {
 	}
 	
 	@Test
-	void testGetNextPatientTest() {
-		Patient p = er.getNextPatient(er.waitingQueue);
+	void testGetNextPatient() {
+		Optional<Patient> box = er.getNextPatient(er.waitingQueue);
+		assertTrue(box.isPresent(), "Queue should not be empty!");
+		
+		Patient p = box.get();
 		Patient expected = p2;
 		assertEquals(expected.getPatientId(), p.getPatientId());
 	}

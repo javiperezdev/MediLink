@@ -6,7 +6,7 @@ public class Patient implements Comparable<Patient> { // Declaration of the prom
 	private int patientId;
 	private String name;
 	private LocalDateTime arrivalTime = LocalDateTime.now();
-	private Severity s;
+	private Severity severity;
 	
 	@Override 
 	public int compareTo(Patient other) {
@@ -14,7 +14,7 @@ public class Patient implements Comparable<Patient> { // Declaration of the prom
 		 * when it is smaller it returns -1
 		 * and when they have the same level, the tie breaker is the 'arrivalTime'
 		 */ 
-		int severityResult = (Integer.compare(other.s.getLevel(), this.s.getLevel()));
+		int severityResult = (Integer.compare(other.severity.getLevel(), this.severity.getLevel()));
 		
 		if (severityResult != 0) {
 			return severityResult;
@@ -27,15 +27,11 @@ public class Patient implements Comparable<Patient> { // Declaration of the prom
 	public Patient(int patientId, String name) {
 		this.patientId = patientId;
 		this.name = name;
-		this.s = null;
+		this.severity = null;
 	}
 
 	public int getPatientId() {
 		return patientId;
-	}
-
-	public void setPatientId(int patient_id) {
-		this.patientId = patient_id;
 	}
 
 	public String getName() {
@@ -54,21 +50,18 @@ public class Patient implements Comparable<Patient> { // Declaration of the prom
 		this.arrivalTime = arrivalTime;
 	}
 
-	public Severity getS() {
-		return s;
+	public Severity getSeverity() {
+		return severity;
 	}
 
-	public void setS(Severity s) {
-		if (s != null) {
-			this.s = s;
+	public void setSeverity(Severity severity) {
+		if (severity == null) {
+			throw new IllegalArgumentException("Severity can not be null!");
 		}
-		else {
-			System.out.println("Severity can't be null!");
-		}
+		this.severity = severity;
 	}
-	
 	@Override
 	public String toString() {
-		return "patientId=" + patientId + "\nname=" + name + "\narrivalTime=" + arrivalTime + "\nseverity_level=" + s;
+		return "patientId=" + patientId + "\nname=" + name + "\narrivalTime=" + arrivalTime + "\nseverity_level=" + severity;
 	}
 }

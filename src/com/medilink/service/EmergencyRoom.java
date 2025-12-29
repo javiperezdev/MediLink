@@ -1,12 +1,15 @@
 package com.medilink.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import com.medilink.model.Patient;
 import com.medilink.model.Severity;
 
 public class EmergencyRoom {
-	ArrayList <Patient> waitingQueue = new ArrayList<Patient>();
+	List<Patient> waitingQueue = new ArrayList<Patient>();
 	
 	public EmergencyRoom() {
 		
@@ -25,40 +28,27 @@ public class EmergencyRoom {
 		
 		for (int i = 0; i < waitingQueue.size(); i++) {
 			if (waitingQueue.get(i).getPatientId() == patientId) {
-				waitingQueue.get(i).setS(s);
+				waitingQueue.get(i).setSeverity(s);
+				reSort(this.waitingQueue); // When status changes, list has to be reSorted
 				break;
 			}
 		}
 	}
 	
-	public ArrayList<Patient> reSort(ArrayList<Patient> waitingQueue) {
-		boolean repeat = true;
-		while (repeat) {
-			repeat = false;
-			for (int j = 0; j < waitingQueue.size() - 1; j++) {
-				if (waitingQueue.get(j).compareTo(waitingQueue.get(j+1)) > 0) {
-					Patient aux = waitingQueue.get(j+1);
-					waitingQueue.set(j+1, waitingQueue.get(j));
-					waitingQueue.set(j, aux);
-					repeat = true;
-				}
-			}
-		}
-		return waitingQueue;
+	public void reSort(List<Patient> waitingQueue) {
+		Collections.sort(waitingQueue);
 	}
 	
-	public Patient getNextPatient(ArrayList<Patient> waitingQueue) {
-		if (waitingQueue.size() == 0) {
-			System.out.println("There are no patients currently!");
-			return null;
+	public Optional<Patient> getNextPatient(List<Patient> waitingQueue) {
+		if (waitingQueue.isEmpty()) { 
+			return Optional.empty(); // Returns empty instead of null
 		}
-		Patient p = waitingQueue.get(0);
-		waitingQueue.remove(0);
-		return p;
+		Patient p = waitingQueue.remove(0); // '.remove()' does return the item as well as removing from the list.
+		return Optional.of(p); // Patient is now 'wrapped' inside optional
 	}
 	
-	public ArrayList<Patient> getQueueState(ArrayList<Patient> waitingQueue){
-		return this.waitingQueue;
+	public List<Patient> getQueueState(List<Patient> waitingQueue){
+		return new ArrayList<Patient>(this.waitingQueue);
 	}
 }
  	
