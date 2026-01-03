@@ -7,48 +7,51 @@ import java.util.Optional;
 
 import com.medilink.model.Patient;
 import com.medilink.model.Severity;
+import com.medilink.utils.Input;
 
 public class EmergencyRoom {
-	List<Patient> waitingQueue = new ArrayList<Patient>();
 	
 	public EmergencyRoom() {
 		
 	}
 	
-	public void addPatient(Patient p) {
-		this.waitingQueue.add(p);
-		reSort(this.waitingQueue);
+	public void addPatient(Patient p, List<Patient> patientList) {
+		patientList.add(p);
+		reSort(patientList);
 	}
 	
-	public void performTriage(int patientId, Severity s) {
-		if (waitingQueue.size() == 0) {
+	public void performTriage(List<Patient> patientList) {
+		if (patientList.size() == 0) {
 			System.out.println("There are no patients currently!");
 			return;
 		}
 		
-		for (int i = 0; i < waitingQueue.size(); i++) {
-			if (waitingQueue.get(i).getPatientId() == patientId) {
-				waitingQueue.get(i).setSeverity(s);
-				reSort(this.waitingQueue); // When status changes, list has to be reSorted
+		int patientId = Input.getInt("Enter the id of the patient: ", true);
+		Severity severity = Input.getSeverity("Enter the severity of the patient: ");
+		
+		for (int i = 0; i < patientList.size(); i++) {
+			if (patientList.get(i).getPatientId() == patientId) {
+				patientList.get(i).setSeverity(severity);
+				reSort(patientList); // When status changes, list has to be reSorted
 				break;
 			}
 		}
 	}
 	
-	public void reSort(List<Patient> waitingQueue) {
-		Collections.sort(waitingQueue);
+	public void reSort(List<Patient> patientList) {
+		Collections.sort(patientList);
 	}
 	
-	public Optional<Patient> getNextPatient(List<Patient> waitingQueue) {
-		if (waitingQueue.isEmpty()) { 
+	public Optional<Patient> getNextPatient(List<Patient> patientList) {
+		if (patientList.isEmpty()) { 
 			return Optional.empty(); // Returns empty instead of null
 		}
-		Patient p = waitingQueue.remove(0); // '.remove()' does return the item as well as removing from the list.
+		Patient p = patientList.remove(0); // '.remove()' does return the item as well as removing from the list.
 		return Optional.of(p); // Patient is now 'wrapped' inside optional
 	}
 	
-	public List<Patient> getQueueState(List<Patient> waitingQueue){
-		return new ArrayList<Patient>(this.waitingQueue);
+	public List<Patient> getQueueState(List<Patient> patientList){
+		return new ArrayList<Patient>(patientList);
 	}
 }
  	

@@ -29,6 +29,15 @@ public class Patient implements Comparable<Patient> { // Declaration of the prom
 		this.name = name;
 		this.severity = null;
 	}
+	
+	public Patient(int patientId, String name, LocalDateTime arrivalTime, Severity severity) {
+		this.patientId = patientId;
+		this.name = name;
+		this.arrivalTime = arrivalTime;
+		this.setSeverity(severity);
+	}
+
+
 
 	public int getPatientId() {
 		return patientId;
@@ -42,11 +51,11 @@ public class Patient implements Comparable<Patient> { // Declaration of the prom
 		this.name = name;
 	}
 
-	public LocalDateTime getEntryDate() {
+	public LocalDateTime getArrivalTime() {
 		return arrivalTime;
 	}
 
-	public void setEntryDate(LocalDateTime arrivalTime) {
+	public void setArrivalTime(LocalDateTime arrivalTime) {
 		this.arrivalTime = arrivalTime;
 	}
 
@@ -62,6 +71,6 @@ public class Patient implements Comparable<Patient> { // Declaration of the prom
 	}
 	@Override
 	public String toString() {
-		return "patientId=" + patientId + "\nname=" + name + "\narrivalTime=" + arrivalTime + "\nseverity_level=" + severity;
+		return "patientId =" + patientId + "\nname =" + name + "\narrivalTime =" + arrivalTime + "\nseverity_level =" + severity;
 	}
 }
